@@ -3,38 +3,19 @@
 
 
 def canUnlockAll(boxes):
-    """a method that determines if all the boxes can be opened.
-
-    Params: @boxes: a list of lists of integers.
-    Description: A key with the same number as a box opens that box.
-                 There can be keys that do not have boxes.
-                 The first box boxes[0] is unlocked.
-    Return True if all boxes can be opened, else return False
     """
-    if not boxes or not boxes[0]:
-        return False
-
-    boxesLockStatus = [True] * len(boxes)
-    boxesLockStatus[0] = False
-    canUnlockAllRecursive(boxes, 0, boxesLockStatus)
-    for boxLockStatus in boxesLockStatus:
-        if boxLockStatus is True:
-            return False
-    return True
-
-
-def canUnlockAllRecursive(boxes, boxIndex, boxesLockStatus):
-    """a method that determines if all the boxes can be opened recursively.
-
-    Params: @boxes: a list of boxes.
-            @boxIndex: the index of the open box.
-            @boxesLockStatus: a list containing the lock state of the boxes.
-    Description: A key with the same number as a box opens that box.
-                 There can be keys that do not have boxes.
-                 The first box boxes[0] is unlocked.
-                 Updates the boxesLockStatus array.
+    Checks if all the boxes in a list of boxes containing the keys
+    (indices) to other boxes can be unlocked given that the first
+    box is unlocked.
     """
-    for n in boxes[boxIndex]:
-        if n < len(boxesLockStatus) and boxesLockStatus[n] is True:
-            boxesLockStatus[n] = False
-            canUnlockAllRecursive(boxes, n, boxesLockStatus)
+    n = len(boxes)
+    seen_boxes = set([0])
+    unseen_boxes = set(boxes[0]).difference(seen_boxes)
+    while len(unseen_boxes) > 0:
+        boxIdx = unseen_boxes.pop()
+        if not boxIdx or boxIdx >= n or boxIdx < 0:
+            continue
+        if boxIdx not in seen_boxes:
+            unseen_boxes = unseen_boxes.union(boxes[boxIdx])
+            seen_boxes.add(boxIdx)
+    return n == len(seen_boxes)
