@@ -11,6 +11,9 @@ def canUnlockAll(boxes):
                  The first box boxes[0] is unlocked.
     Return True if all boxes can be opened, else return False
     """
+    if not boxes:
+        return False
+
     boxesLockStatus = [True] * len(boxes)
     boxesLockStatus[0] = False
     canUnlockAllRecursive(boxes, 0, boxesLockStatus)
@@ -18,6 +21,7 @@ def canUnlockAll(boxes):
         if boxLockStatus is True:
             return False
     return True
+
 
 def canUnlockAllRecursive(boxes, boxIndex, boxesLockStatus):
     """a method that determines if all the boxes can be opened recursively.
