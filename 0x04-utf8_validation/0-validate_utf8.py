@@ -19,6 +19,7 @@ def validUTF8(data):
     num_bytes = 1
 
     for d in data:
+        d = d & 0b011111111
         if num_bytes == 1:
             if d >> 5 == 0b110:
                 # check if it's a 2-byte character
