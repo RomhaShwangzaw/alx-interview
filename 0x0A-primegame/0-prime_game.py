@@ -34,6 +34,9 @@ def isWinner(x, nums):
         round. Assuming Maria always goes first and both players play
         optimally, determine who the winner of each game is.
     """
+    if x < 1 or not nums:
+        return None
+
     player1 = {
         'name': "Maria",
         'winCount': 0
